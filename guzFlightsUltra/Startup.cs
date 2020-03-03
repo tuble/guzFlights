@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using guzFlights.Data;
+using guzFlightsUltra.Data;
 using guzFlightsUltra.Data.Models;
 
 namespace guzFlightsUltra
@@ -26,12 +26,23 @@ namespace guzFlightsUltra
             services.AddDbContext<guzFlightsUltraDbContext>(options =>
     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddIdentity<GuzUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequiredUniqueChars = 0;
+            }
+            ).AddRoles<IdentityRole>().AddEntityFrameworkStores<guzFlightsUltraDbContext>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<GuzUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -48,15 +59,12 @@ namespace guzFlightsUltra
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            /*            app.UseEndpoints(endpoints =>
-                        {
-                            endpoints.MapControllerRoute(
-                                name: "default",
-                                pattern: "{controller=Home}/{action=Index}/{id?}");
-                        });
-            */
+            ApplicationDbInitializer.SeedUsers(userManager);
+
+            // change default routing
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

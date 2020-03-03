@@ -15,7 +15,7 @@ namespace guzFlightsUltra.Services.Contracts
         List<Flight> GetAll(); // (показване на 10, 25 или 50 записа на страница
 
         // списък на всички пътници, според резервациите направени за полета
-        List<Passenger> GetCurrentReservationAllPassangers();
+        List<Passenger> GetCurrentReservationAllPassangers(int thisReservationId);
 
     }
 }

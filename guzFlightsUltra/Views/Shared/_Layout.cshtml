@@ -24,11 +24,42 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <!--mazalo-->
+                        @if (!this.User.Identity.IsAuthenticated) 
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-white" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                            </li>
+                        }
+                        else
+                        {
+                            if (this.User.IsInRole("Administrator"))
+                            {
+                                <li class="nav-item">
+                                    Hello, admin, @this.User.Identity.Name
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link nav-link-white" asp-area="Identity" asp-page="/Account/Register">Register new employee</a>
+                                </li>
+                            }
+                            else if (this.User.IsInRole("Employee"))
+                            {
+                                <li class="nav-item">
+                                    Hello, employee, @this.User.Identity.Name
+                                </li>
+                            }
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-white" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                            </li>
+                        }
+
+
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -43,6 +74,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+@RenderSection("Scripts", required: false)

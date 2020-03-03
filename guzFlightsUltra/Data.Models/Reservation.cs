@@ -13,14 +13,14 @@ namespace guzFlightsUltra.Data.Models
         // flight dependent entity
         // reservation principal
         public Reservation()
-        { }
+        {
+            Passengers = new List<Passenger>();
+        }
 
         [Key]
         public int ReservatoionId { get; set; }
-        /*public ICollection<Flight> Flights { get; set; }*/
-
         public Flight ReservedFlight { get; set; }
-        public ICollection<Passenger> Passengers { get; set; }
+        public List<Passenger> Passengers { get; set; }
 
 
     }
