@@ -44,22 +44,6 @@ namespace guzFlightsUltra.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "3ed71cb3-e135-42fc-8515-5cf96aa0d00f",
-                            ConcurrencyStamp = "087f9b43-63a7-48ee-a065-00312042139c",
-                            Name = "Employee",
-                            NormalizedName = "EMPLOYEE"
-                        },
-                        new
-                        {
-                            Id = "9b2caceb-59e5-4523-9a7a-c55969aa25ce",
-                            ConcurrencyStamp = "0fad4593-3be3-4357-b9ef-8ddfe0bb4f2c",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -140,9 +124,14 @@ namespace guzFlightsUltra.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles");
                 });
@@ -168,36 +157,33 @@ namespace guzFlightsUltra.Migrations
 
             modelBuilder.Entity("guzFlightsUltra.Data.Models.Flight", b =>
                 {
-                    b.Property<int>("FlightId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("FlightId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("BussinessFreeSeats")
-                        .HasColumnType("int");
-
                     b.Property<string>("EndDestination")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FreeSeats")
+                    b.Property<int>("FreeSeatsBussiness")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FreeSeatsPassanger")
                         .HasColumnType("int");
 
                     b.Property<string>("PilotName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PlaneId")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
 
                     b.Property<string>("PlaneType")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ReservationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("StartDestination")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TakeOffTime")
@@ -205,19 +191,77 @@ namespace guzFlightsUltra.Migrations
 
                     b.HasKey("FlightId");
 
-                    b.HasIndex("ReservationId")
-                        .IsUnique();
-
                     b.ToTable("Flights");
                 });
 
-            modelBuilder.Entity("guzFlightsUltra.Data.Models.GuzUser", b =>
+            modelBuilder.Entity("guzFlightsUltra.Data.Models.Reservation", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Confirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("FlightId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Nationality")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SSN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SecondName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<int>("TicketType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TicketsCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlightId");
+
+                    b.ToTable("Reservations");
+                });
+
+            modelBuilder.Entity("guzFlightsUltra.Data.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -260,6 +304,7 @@ namespace guzFlightsUltra.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("SSN")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
@@ -285,53 +330,6 @@ namespace guzFlightsUltra.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("guzFlightsUltra.Data.Models.Passenger", b =>
-                {
-                    b.Property<int>("PassengerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nationality")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ReservationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SSN")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TelephoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TicketType")
-                        .HasColumnType("int");
-
-                    b.HasKey("PassengerId");
-
-                    b.HasIndex("ReservationId");
-
-                    b.ToTable("Passengers");
-                });
-
-            modelBuilder.Entity("guzFlightsUltra.Data.Models.Reservation", b =>
-                {
-                    b.Property<int>("ReservatoionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("ReservatoionId");
-
-                    b.ToTable("Reservations");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -343,7 +341,7 @@ namespace guzFlightsUltra.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("guzFlightsUltra.Data.Models.GuzUser", null)
+                    b.HasOne("guzFlightsUltra.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -352,7 +350,7 @@ namespace guzFlightsUltra.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("guzFlightsUltra.Data.Models.GuzUser", null)
+                    b.HasOne("guzFlightsUltra.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -367,38 +365,32 @@ namespace guzFlightsUltra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("guzFlightsUltra.Data.Models.GuzUser", null)
+                    b.HasOne("guzFlightsUltra.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("guzFlightsUltra.Data.Models.User", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("guzFlightsUltra.Data.Models.GuzUser", null)
+                    b.HasOne("guzFlightsUltra.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("guzFlightsUltra.Data.Models.Flight", b =>
+            modelBuilder.Entity("guzFlightsUltra.Data.Models.Reservation", b =>
                 {
-                    b.HasOne("guzFlightsUltra.Data.Models.Reservation", "FlightReservation")
-                        .WithOne("ReservedFlight")
-                        .HasForeignKey("guzFlightsUltra.Data.Models.Flight", "ReservationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("guzFlightsUltra.Data.Models.Passenger", b =>
-                {
-                    b.HasOne("guzFlightsUltra.Data.Models.Reservation", "FlightReservation")
-                        .WithMany("Passengers")
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("guzFlightsUltra.Data.Models.Flight", "Flight")
+                        .WithMany("Reservations")
+                        .HasForeignKey("FlightId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

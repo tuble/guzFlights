@@ -7,29 +7,29 @@ using System.Threading.Tasks;
 
 namespace guzFlightsUltra.Services
 {
-    public class GuzUserService : IGuzUserService
+    public class UserService : IUserService
     {
-        public List<GuzUser> GetAll()
+        public List<User> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public List<GuzUser> GetByEmail(string email)
+        public List<User> GetByEmail(string email)
         {
             throw new NotImplementedException();
         }
 
-        public List<GuzUser> GetByFirstName(string firstName)
+        public List<User> GetByFirstName(string firstName)
         {
             throw new NotImplementedException();
         }
 
-        public List<GuzUser> GetByLastName(string lastName)
+        public List<User> GetByLastName(string lastName)
         {
             throw new NotImplementedException();
         }
 
-        public List<GuzUser> GetByUserName(string userName)
+        public List<User> GetByUserName(string userName)
         {
             throw new NotImplementedException();
         }

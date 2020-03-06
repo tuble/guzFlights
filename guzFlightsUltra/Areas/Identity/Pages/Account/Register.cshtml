@@ -1,35 +1,54 @@
 ﻿@page
 @model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
 
-<div class="mt-3">
-    <h1 class="text-center">Register</h1>
-    <hr class="bg-secondary half-width hr-2" />
-    <form class="mx-auto half-width" method="post">
-        <div class="form-group">
-            <label asp-for="Input.Username"></label>
-            <input type="text" class="form-control" id="username" placeholder="Username..." asp-for="Input.Username">
-            <span asp-validation-for="Input.Username" class="text-danger"></span>
-        </div>
+<h1 class="text-center">@ViewData["Title"]</h1>
 
-        <div class="form-group">
-            <label asp-for="Input.Password"></label>
-            <input type="password" class="form-control" id="password" placeholder="Password..." asp-for="Input.Password">
-            <span asp-validation-for="Input.Password" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Input.ConfirmPassword"></label>
-            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password..." asp-for="Input.ConfirmPassword">
-            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Input.Email"></label>
-            <input type="email" class="form-control" id="email" placeholder="Email..." asp-for="Input.Email">
-            <span asp-validation-for="Input.Email" class="text-danger"></span>
-        </div>
-        <div class="button-holder d-flex justify-content-center">
-            <button type="submit" class="btn-primary">Register</button>
-        </div>
-    </form>
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="All" class="text-dark"></div>
+            <div class="form-group">
+                <input asp-for="Input.Username" class="form-control common-input mt-20" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username*'" required />
+                <span asp-validation-for="Input.Username" class="text-dark"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Input.FirstName" class="form-control common-input mt-20" placeholder="First Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name*'" required />
+                <span asp-validation-for="Input.FirstName" class="text-dark"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Input.SecondName" class="form-control common-input mt-20" placeholder="Last Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name*'" required />
+                <span asp-validation-for="Input.SecondName" class="text-dark"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Input.Email" class="form-control common-input mt-20" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" required />
+                <span asp-validation-for="Input.Email" class="text-dark"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Input.Password" class="form-control common-input mt-20" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" required />
+                <span asp-validation-for="Input.Password" class="text-dark"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Input.ConfirmPassword" class="form-control common-input mt-20" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'" required />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-dark"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Input.SSN" class="form-control common-input mt-20" placeholder="SSN" onfocus="this.placeholder = ''" onblur="this.placeholder = 'SSN*'" required />
+                <span asp-validation-for="Input.SSN" class="text-dark"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Input.Address" class="form-control common-input mt-20" placeholder="Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address*'" required />
+                <span asp-validation-for="Input.Address" class="text-dark"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Input.PhoneNumber" class="form-control common-input mt-20" placeholder="Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number*'" required />
+                <span asp-validation-for="Input.PhoneNumber" class="text-dark"></span>
+            </div>
+            <button type="submit" class="btn view-btn btn-dark mt-20 w-100"><span>Register</span></button>
+        </form>
+    </div>
 </div>
 
 @section Scripts {

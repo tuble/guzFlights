@@ -1,4 +1,5 @@
-﻿using System;
+﻿using guzFlightsUltra.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,22 +7,52 @@ using System.Threading.Tasks;
 
 namespace guzFlightsUltra.Data.Models
 {
-    public class Reservation // List of passangers 
+
+    public class Reservation
     {
-        // one to many
-        // 1 reservation one flight many passangers
-        // flight dependent entity
-        // reservation principal
-        public Reservation()
-        {
-            Passengers = new List<Passenger>();
-        }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
-        [Key]
-        public int ReservatoionId { get; set; }
-        public Flight ReservedFlight { get; set; }
-        public List<Passenger> Passengers { get; set; }
+        [Required]
+        [MaxLength(30)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [MaxLength(30)]
+        public string SecondName { get; set; }
+
+        [Required]
+        [MaxLength(30)]
+        public string LastName { get; set; }
 
 
+        [Required]
+        [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Enter Valid SSN!")]
+        public string SSN { get; set; }
+
+        [Required]
+        [Phone]
+        public string PhoneNumber { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Nationality { get; set; }
+
+        [Required]
+        public TicketType TicketType { get; set; }
+
+        [Required]
+        [Range(1, 100)]
+        public int TicketsCount { get; set; }
+
+        public bool Confirmed { get; set; } = false;
+
+        public string FlightId { get; set; }
+
+        public Flight Flight { get; set; }
     }
 }
+

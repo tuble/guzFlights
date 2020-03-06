@@ -2,7 +2,47 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="py-5">
+    <div class="container">
+
+        <h1 class="text-center"><strong> Welcome to GUZ Flights Manager!</strong></h1>
+
+        <div class="d-flex justify-content-center">
+
+            <div class="m-1" style="display:inline-block;">
+                <a href="/Flight/GetAll?page=1" class="btn btn-dark text-center mb-2">View All Flights</a>
+
+            </div>
+
+            @if (User.IsInRole("Administrator") || User.IsInRole("Employee"))
+            {
+                <div class="m-1" style="display:inline-block">
+                    <a href="/Reservation/All?page=1" class="btn btn-dark text-center mb-2">View All Reservations</a>
+                </div>
+            }
+            @if (User.IsInRole("Administrator"))
+            {
+                <div class="m-1" style="display:inline-block">
+                    <a href="/User/All?page=1&showBy=10&orderBy=usernameAsc" class="btn btn-dark text-center mb-2">View All Users</a>
+                </div>
+
+                <div class="m-1" style="display:inline-block">
+                    <a href="/Identity/Account/Register" class="btn btn-dark text-center mb-2">Register New Employee</a>
+                </div>
+
+                <div class="m-1" style="display:inline-block">
+                    <a href="/Flight/Create" class="btn btn-dark text-center mb-2">Create New Flight</a>
+                </div>
+            }
+
+        </div>
+
+        <div class="container-fluid">
+            <center>
+                <img class="img-fluid" src="https://geology.com/world/cia/map-of-africa.gif" alt="africa-map">
+            </center>
+        </div>
+
+    </div>
+
+</section>

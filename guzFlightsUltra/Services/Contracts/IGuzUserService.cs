@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace guzFlightsUltra.Services.Contracts
 {
-    public interface IGuzUserService
+    public interface IUserService
     {
 
-        List<GuzUser> GetAll(); // (показване на 10, 25 или 50 записа на страница
-        List<GuzUser> GetByEmail(string email);
-        List<GuzUser> GetByUserName(string userName);
-        List<GuzUser> GetByFirstName(string firstName);
-        List<GuzUser> GetByLastName(string lastName);
+        List<User> GetAll(); // (показване на 10, 25 или 50 записа на страница
+        List<User> GetByEmail(string email);
+        List<User> GetByUserName(string userName);
+        List<User> GetByFirstName(string firstName);
+        List<User> GetByLastName(string lastName);
 
     }
 }

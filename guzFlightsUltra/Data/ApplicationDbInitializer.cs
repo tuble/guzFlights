@@ -10,11 +10,11 @@ namespace guzFlightsUltra.Data
 {
     public static class ApplicationDbInitializer
     {
-        public static void SeedUsers(UserManager<GuzUser> userManager)
+        public static void SeedUsers(UserManager<User> userManager)
         {
             if (userManager.FindByEmailAsync("fustuci12@gmail.com").Result == null)
             {
-                GuzUser adminUser = new GuzUser
+                User adminUser = new User
                 {
                     UserName = "guzAdmin",
                     Email = "fustuci12@gmail.com",

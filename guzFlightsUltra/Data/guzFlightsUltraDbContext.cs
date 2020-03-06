@@ -12,24 +12,25 @@ namespace guzFlightsUltra.Data
     using guzFlightsUltra.Data.Models;
     using Microsoft.EntityFrameworkCore;
 
-    public class guzFlightsUltraDbContext : IdentityDbContext<GuzUser>
+    public class guzFlightsUltraDbContext : IdentityDbContext<User>
     {
         public guzFlightsUltraDbContext(DbContextOptions options) : base(options)
         { }
+
+        public DbSet<Flight> Flights { get; set; }
+
+        public DbSet<Reservation> Reservations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.ApplyConfiguration(new RoleConfiguration());
 
-
-            // builder.ApplyConfiguration(new);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+            builder.Entity<Flight>()
+                .HasMany(f => f.Reservations)
+                .WithOne(r => r.Flight)
+                .HasForeignKey(f => f.FlightId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
-        public virtual DbSet<Flight> Flights { get; set; }
-        public virtual DbSet<Passenger> Passengers { get; set; }
-        public virtual DbSet<Reservation> Reservations { get; set; }
 
     }
 }

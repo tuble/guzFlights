@@ -1,4 +1,4 @@
-﻿namespace guzFlightsUltra.Controllers
+﻿/*namespace guzFlightsUltra.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -6,96 +6,77 @@
     using System.Threading.Tasks;
     using guzFlightsUltra.Models;
     using guzFlightsUltra.Services.Contracts;
+    using guzFlightsUltra.Services.EmailService;
     using Microsoft.AspNetCore.Authorization; // !!
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize]
+    // authorization !
     public class FlightController : Controller
     {
-        private readonly IFlightService flightService;
-        public FlightController(IFlightService flightService)
+        private readonly IFlightService _flightService;
+        private readonly IReservationService _reservationService;
+        public FlightController(IFlightService flightService, IReservationService reservationService)
         {
-            this.flightService = flightService;
+            _flightService = flightService;
+            _reservationService = reservationService;
+
         }
 
-        [Authorize(Roles = "Administrator")]
         [Authorize(Roles = "Employee")]
+        [Authorize(Roles = "Administrator")]
         public IActionResult ListAll()
         {
             var viewModel = new IndexAllFlightsViewModel();
-            
-            // viewModel.Albums = this.albumService.GetAll();
 
-            // var rated = this.albumService.GetAllRatings();
+            viewModel.Flights = _flightService.GetAll();
 
-            // rated = rated.OrderBy(x => x.AlbumId).ToList();
-            // viewModel.Albums = viewModel.Albums.OrderBy(x => x.AlbumId).ToList(); 
-
-
-/*            foreach (var album in viewModel.Albums)
-            {
-                if (!viewModel.AlbumsWithRating.Keys.Contains<Album>(album))
-                {
-                    viewModel.AlbumsWithRating.Add(album, 0);
-                }
-            }
-*/
             return this.View(viewModel);
         }
 
-        // IMPLEMENT
-/*        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
-            //var viewModel = new CreateAlbumViewModel();
-            // return this.View(viewModel);
-        }
+            var viewModel = new CreateFlightViewModel(); // IMPLEMENT
 
-        public IActionResult Create(string title, string artist, int year, int genreId)
-        {
-            if (this.albumService.CreateAlbum(title, artist, year, genreId) == 0)
-            {
-                return this.RedirectToAction("AlbumAlreadyAdded", new { error = $"Album {title} by {artist} is already in the database" });
-            }
-
-            return this.RedirectToAction("ListAll");
-        }
-*/
-/*        public IActionResult Delete()
-        {
-            var viewModel = new DeleteAlbumViewModel();
-            viewModel.Albums = this.albumService.GetAll();
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Delete(int albumId)
+        public IActionResult Create(string StartDestination, string EndDestination, DateTime TakeOffTime, DateTime ArrivalTime,
+            string PlaneType, int PlaneId, string PilotName, int FreeSeats, int FreeBussinessSeats)
         {
-            var viewModel = new DeleteAlbumViewModel();
-            viewModel.Albums = this.albumService.GetAll();
+            _flightService.CreateFlight(StartDestination, EndDestination, TakeOffTime, ArrivalTime,
+                PlaneType, PilotName, FreeSeats, FreeBussinessSeats);
 
-            this.albumService.DeleteAlbum(albumId);
             return this.RedirectToAction("ListAll");
         }
-*/
-        //[Route("Album/{id}")]
-        // display detailed flight info
-/*        public IActionResult AlbumInfo(int albumId)
+
+        public IActionResult Delete()
         {
-            var viewModel = new IndexAlbumViewModel();
-
-            var a = albumService.GetAll().FirstOrDefault(x => x.AlbumId == albumId);
-
-            viewModel.Artist = a.Artist;
-            viewModel.GenreId = a.GenreId;
-            viewModel.Genre = genreService.GetAll().FirstOrDefault(x => x.Id == a.GenreId).Name;
-            viewModel.Title = a.Title;
-            viewModel.Year = a.Year;
-            viewModel.TimesRated = a.TimesRated;
-
+            var viewModel = new DeleteFlightViewModel();
+            //viewModel.Flights = this._flightService.GetAll();
             return this.View(viewModel);
         }
 
-*/    }
-}
+        [HttpPost]
+        public IActionResult Delete(int flightId)
+        {
+            var viewModel = new DeleteFlightViewModel();
+            _flightService.DeleteFlight(flightId);
+
+
+            // viewModel.Albums = this.albumService.GetAll();
+            // this.albumService.DeleteAlbum(albumId);
+            return this.RedirectToAction("ListAll");
+        }
+
+        [Route("Flight/PassengersReserved/{id}")]
+        public IActionResult GetCurrentReservationAllPassangers(int reservationId)
+        {
+            var viewModel = new GetCurrentReservationAllPassengersViewModel();
+            viewModel.Passengers = this._flightService.GetCurrentReservationAllPassangers(reservationId);
+
+            return this.View(viewModel);
+        }
+    }
+}*/
