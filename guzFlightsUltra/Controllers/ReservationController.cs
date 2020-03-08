@@ -41,7 +41,12 @@ namespace guzFlightsUltra.Controllers
                 return Redirect("/Flight/GetAll");
             }
 
-            var flightId = input.FlightId;
+            if(flightService.GetFlight(input.FlightId).FreeSeatsBussiness == 0 || flightService.GetFlight(input.FlightId).FreeSeatsPassanger == 0 || flightService.GetFlight(input.FlightId).FreeSeatsPassanger - input.TicketsCount < 0 || flightService.GetFlight(input.FlightId).FreeSeatsBussiness - input.TicketsCount < 0)
+            {
+                return Redirect("/Flight/GetAll");
+            }
+
+            // if(input.)
 
             var reservation = new Models.ReservationServiceModel
             {
