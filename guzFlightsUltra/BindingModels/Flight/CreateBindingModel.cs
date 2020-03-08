@@ -1,4 +1,5 @@
-﻿using System;
+﻿using guzFlightsUltra.Data.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace guzFlightsUltra.BindingModels.Flight
@@ -6,41 +7,33 @@ namespace guzFlightsUltra.BindingModels.Flight
     public class CreateBindingModel
     {
         [Required]
-        [MaxLength(30)]
-        [RegularExpression("/^Guinea/ | /^Uganda/ | /^Zimbabwe/")]
-
-        public string From { get; set; }
+        // [RegularExpression("/Guinea|Uganda|Zimbabwe/")] doesnt work???
+        public string StartDestination { get; set; }
 
         [Required]
-        [MaxLength(30)]
-        [RegularExpression("/^Guinea/ | /^Uganda/ | /^Zimbabwe/")]
-
-        public string To { get; set; }
+        //[RegularExpression("/Guinea|Uganda|Zimbabwe/")]
+        public string EndDestination { get; set; }
 
         [Required]
-        public string DepartureTime { get; set; }
+        public string TakeOffTime { get; set; }
 
         [Required]
         public string ArrivalTime { get; set; }
 
         [Required]
-        public string PlaneType { get; set; }
+        public PlaneType PlaneType { get; set; }
 
         [Required]
         public int PlaneNumber { get; set; }
 
         [Required]
-        [MaxLength(30)]
         public string PilotName { get; set; }
 
         [Required]
-        [Range(0, 250)]
         public int FreePassengersSeats { get; set; }
 
         [Required]
-        [Range(0, 50)]
         public int FreeBusinessSeats { get; set; }
 
-        public string Image { get; set; }
     }
 }

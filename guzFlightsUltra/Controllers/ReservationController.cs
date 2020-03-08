@@ -1,57 +1,144 @@
-﻿/*namespace guzFlightsUltra.Controllers
+﻿using guzFlightsUltra.BindingModels.Reservation;
+using guzFlightsUltra.Models.ViewModels.Reservation;
+using guzFlightsUltra.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services; // for email sender
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+
+namespace guzFlightsUltra.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using guzFlightsUltra.Models;
-    using guzFlightsUltra.Services.Contracts;
-    using guzFlightsUltra.Services.EmailService;
-    using Microsoft.AspNetCore.Authorization; // !!
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
     public class ReservationController : Controller
     {
-        private readonly IFlightService _flightService;
-        private readonly IReservationService _reservationService;
-        public ReservationController(IFlightService flightService, IReservationService reservationService)
+        private IFlightService flightService;
+        private IReservationService reservationService;
+
+
+        public ReservationController(IFlightService flightService, IReservationService reservationService, IEmailSender emailSender)
         {
-            _flightService = flightService;
-            _reservationService = reservationService;
+            this.flightService = flightService;
+            this.reservationService = reservationService;
         }
 
-        public IActionResult ReserveAndConfirmReservationByEmail()
+        public IActionResult Make(string id)
         {
-            var viewModel = new ReserveAndConfirmReservationByEmailViewModel(); // IMPLEMENT
+            if (!flightService.ExistsId(id))
+            {
+                return Redirect("/Flight/GetAll");
+            }
 
-            return this.View(viewModel);
+            var reservation = new CreateBindingModel { };
+            reservation.FlightId = id;
+
+            return View(reservation);
         }
 
         [HttpPost]
-        public IActionResult ReserveAndConfirmReservationByEmail(int flightId, List<guzFlightsUltra.Data.Models.Passenger> passengers, string email)
+        public IActionResult Make(CreateBindingModel input)
         {
+            if (!ModelState.IsValid)
+            {
+                return Redirect("/Flight/GetAll");
+            }
 
-            return this.RedirectToAction("ListAll");
+            var flightId = input.FlightId;
+
+            var reservation = new Models.ReservationServiceModel
+            {
+                FirstName = input.FirstName,
+                SecondName = input.SecondName,
+                LastName = input.LastName,
+                SSN = input.SSN,
+                PhoneNumber = input.PhoneNumber,
+                Nationality = input.Nationality,
+                TicketType = input.TicketType,
+                TicketsCount = input.TicketsCount,
+                IsConfirmed = false,
+                FlightId = input.FlightId,
+                Email = input.Email
+            };
+
+            reservationService.MakeReservation(reservation);
+
+            return Redirect("/Flight/GetAll");
         }
 
-        public IActionResult ListAll()
+        public IActionResult Confirm(string id)
         {
-            var viewModel = new IndexAllReservationsViewModel();
+            if (!reservationService.ExistsId(id))
+            {
+                return Redirect("/Flight/GetAll");
+            }
 
-            viewModel.Reservations = _reservationService.GetAll();
+            reservationService.ConfirmReservation(id);
 
-            return this.View(viewModel);
+            return Redirect("/Flight/GetAll");
+            // specify reservation as completed
         }
 
-        public IActionResult GetAllMatchingEmail(string email)
+        public IActionResult Delete(string id)
         {
-            var viewModel = new GetAllReservationsMatchingEmail();
+            if (!reservationService.ExistsId(id))
+            {
+                return Redirect("/Flight/GetAll");
+            }
 
-            viewModel.ReservationsMatchingMail = _reservationService.GetAllMatchingEmail(email);
+            reservationService.DeleteReservation(id);
 
-            return this.View(viewModel);
+            return Redirect("/Flight/GetAll");
         }
 
+        [Authorize]
+        public IActionResult All(int page)
+        {
+            if (page <= 0)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            int reservationsCount = reservationService.Count();
+
+            var lastPage = reservationsCount / 8 + 1; // 8 reservations per page
+
+            if (reservationsCount % 8 == 0 && lastPage > 1) // 8 reservations per page
+            {
+                lastPage--;
+            }
+
+            if (page > lastPage)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            var reservations = reservationService.GetAll(page);
+
+            var viewModel = new ListingPageViewModel
+            {
+                CurrentPage = page,
+                TotalReservationsCount = reservationsCount,
+                LastPage = lastPage,
+                Reservations = new List<ReservationViewModel>()
+            };
+
+            foreach (var reservation in reservations)
+            {
+                viewModel.Reservations.Add(new ReservationViewModel()
+                {
+                    FirstName = reservation.FirstName,
+                    SecondName = reservation.SecondName,
+                    LastName = reservation.LastName,
+                    SSN = reservation.SSN,
+                    Email = reservation.Email,
+                    Id = reservation.Id,
+                    Confirmed = reservation.Confirmed,
+                    Nationality = reservation.Nationality,
+                    PhoneNumber = reservation.PhoneNumber,
+                    TicketType = reservation.TicketType.ToString(),
+                    TicketsCount = reservation.TicketsCount
+                });
+            }
+
+            return View(viewModel);
+        }
     }
 }
-*/

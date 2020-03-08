@@ -49,7 +49,7 @@ namespace guzFlightsUltra
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IGuzUserService, GuzUserService>();
             services.AddScoped<IFlightService, FlightService>();
             services.AddScoped<IReservationService, ReservationService>();
             services.AddScoped<IEmailSender, EmailSender>();
@@ -82,7 +82,7 @@ namespace guzFlightsUltra
                     }
                 }
 
-                if (!userManager.Users.Any(x => x.Roles.Equals("Administrator")))
+                if (!userManager.Users.Any(x => x.Roles.Equals("Administrator"))) // add admin user on creation
                 {
                     User adminUser = new User
                     {
@@ -109,7 +109,6 @@ namespace guzFlightsUltra
                 if (env.IsDevelopment())
                 {
                     app.UseDeveloperExceptionPage();
-                    //app.UseDatabaseErrorPage();
                 }
                 else
                 {

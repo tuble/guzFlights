@@ -188,3 +188,8 @@ C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp
 C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp3.1\guzFlightsUltra.Views.pdb
 C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp3.1\guzFlightsUltra.csproj.CopyComplete
 C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp3.1\Razor\Views\Flight\GetAll.cshtml.g.cs
+C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp3.1\Razor\Views\Flight\Details.cshtml.g.cs
+C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp3.1\Razor\Views\Flight\Edit.cshtml.g.cs
+C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp3.1\Razor\Views\Reservation\All.cshtml.g.cs
+C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp3.1\Razor\Views\Reservation\Make.cshtml.g.cs
+C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp3.1\Razor\Views\User\All.cshtml.g.cs

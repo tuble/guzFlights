@@ -1,37 +1,116 @@
-﻿using guzFlightsUltra.Data.Models;
+﻿using guzFlightsUltra.Data;
+using guzFlightsUltra.Data.Models;
+using guzFlightsUltra.Models;
 using guzFlightsUltra.Services.Contracts;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace guzFlightsUltra.Services
 {
-    public class UserService : IUserService
+    public class GuzUserService : IGuzUserService
     {
-        public List<User> GetAll()
+        private guzFlightsUltraDbContext context;
+
+        public GuzUserService(guzFlightsUltraDbContext context, UserManager<User> userManager)
         {
-            throw new NotImplementedException();
+            this.context = context;
         }
 
-        public List<User> GetByEmail(string email)
+        public int Count()
         {
-            throw new NotImplementedException();
+            return context.Users.Count();
         }
 
-        public List<User> GetByFirstName(string firstName)
+        public List<User> GetAll(int page, int onPage, string orderBy)
         {
-            throw new NotImplementedException();
+            //var role = context.Roles.SingleOrDefault(r => r.Name == "Employee");
+
+            var users = context.Users.ToList();
+
+            if (orderBy == "emailAscending")
+            {
+                users = users.OrderBy(u => u.Email).ToList();
+            }
+            else if (orderBy == "emailDescending")
+            {
+                users = users.OrderByDescending(u => u.Email).ToList();
+            }
+            else if (orderBy == "unameDescending")
+            {
+                users = users.OrderByDescending(u => u.UserName).ToList();
+            }
+            else if (orderBy == "firstNameAscending")
+            {
+                users = users.OrderBy(u => u.FirstName).ToList();
+            }
+            else if (orderBy == "firstNameDescending")
+            {
+                users = users.OrderByDescending(u => u.FirstName).ToList();
+            }
+            else if (orderBy == "lastNameAscending")
+            {
+                users = users.OrderBy(u => u.LastName).ToList();
+            }
+            else if (orderBy == "lastNameDescending")
+            {
+                users = users.OrderByDescending(u => u.LastName).ToList();
+            }
+            else // unameAscending
+            {
+                users = users.OrderBy(u => u.UserName).ToList();
+            }
+
+            var result = users
+                .Take(page * onPage)
+                .Skip((page - 1) * onPage)
+                .ToList();
+
+            return result;
         }
 
-        public List<User> GetByLastName(string lastName)
+        public bool Contains(string id)
         {
-            throw new NotImplementedException();
+            return context.Users.Any(u => u.Id == id);
         }
 
-        public List<User> GetByUserName(string userName)
+        public User GetById(string id)
         {
-            throw new NotImplementedException();
+            if (!Contains(id))
+            {
+                throw new ArgumentException("Invalid user Id");
+            }
+
+            var user = context.Users.SingleOrDefault(u => u.Id == id);
+
+            return user;
+        }
+
+        public void Edit(GuzUserServiceModel user)
+        {
+            if (!Contains(user.Id))
+            {
+                throw new ArgumentException("Invalid user id!");
+            }
+
+            var dbUser = context.Users.SingleOrDefault(u => u.Id == user.Id);
+
+            dbUser.FirstName = user.FirstName;
+            dbUser.LastName = user.LastName;
+            dbUser.SSN = user.SSN;
+            dbUser.Address = user.Address;
+
+            context.Users.Update(dbUser);
+            context.SaveChanges();
+        }
+
+        public void DeleteById(string id)
+        {
+            var user = context.Users.SingleOrDefault(u => u.Id == id);
+
+            context.Users.Remove(user);
+            context.SaveChanges();
         }
     }
 }

@@ -1,0 +1,68 @@
+﻿@model guzFlightsUltra.Models.ViewModels.Flight.DetailsViewModel
+<section class="py-5">
+    <div class="container">
+
+        <h1>Flight to: @Model.EndDestination from @Model.StartDestination</h1>
+        <h2>Pilot: @Model.PilotName</h2>
+
+        @if (User.IsInRole("Employee") || User.IsInRole("Administrator"))
+        {
+            <h3>Passengers</h3>
+            @if (Model.Passengers.Count == 0)
+            {
+                <p class="mb-4">There are no reservations.</p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Second Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">SSN</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Nationality</th>
+                            <th scope="col">PhoneNumber</th>
+                            <th scope="col">Ticket Type</th>
+                            <th scope="col">Tickets</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var reservation in Model.Passengers)
+                        {
+                            <tr>
+                                <th scope="row">@reservation.FirstName</th>
+                                <td>@reservation.SecondName</td>
+                                <td>@reservation.LastName</td>
+                                <td>@reservation.SSN</td>
+                                <td>@reservation.Email</td>
+                                <td>@reservation.Nationality</td>
+                                <td>@reservation.PhoneNumber</td>
+                                <td>@reservation.TicketType</td>
+                                <td>@reservation.TicketsCount</td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+            }
+        }
+
+    <div class="form-group text-center">
+        @if (User.IsInRole("Administrator"))
+        {
+            <div class="m-1" style="display:inline-block">
+                <a href="/Flight/Edit?id=@Model.Id" class="btn btn-primary text-uppercase">Edit</a>
+            </div>
+            <div class="m-1" style="display:inline-block">
+                <a href="/Flight/Delete?id=@Model.Id" class="btn btn-danger text-uppercase">Delete</a>
+            </div>
+        }
+        <div class="m-1" style="display:inline-block">
+            <a href="/Reservation/Make?id=@Model.Id" class="btn btn-dark text-uppercase">Make Reservation</a>
+        </div>
+    </div>
+    </div>
+</section>

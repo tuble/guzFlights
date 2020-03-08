@@ -10,8 +10,8 @@ using guzFlightsUltra.Data;
 namespace guzFlightsUltra.Migrations
 {
     [DbContext(typeof(guzFlightsUltraDbContext))]
-    [Migration("20200306121121_SecondInitial")]
-    partial class SecondInitial
+    [Migration("20200307222501_thirdInitial")]
+    partial class thirdInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -99,10 +99,12 @@ namespace guzFlightsUltra.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -144,10 +146,12 @@ namespace guzFlightsUltra.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -180,9 +184,8 @@ namespace guzFlightsUltra.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
-                    b.Property<string>("PlaneType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PlaneType")
+                        .HasColumnType("int");
 
                     b.Property<string>("StartDestination")
                         .IsRequired()
@@ -332,6 +335,85 @@ namespace guzFlightsUltra.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("guzFlightsUltra.Models.ViewModels.Flight.DetailsViewModel", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ArrivalTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EndDestination")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FreeSeatsBussiness")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FreeSeatsPassanger")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PilotName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PlaneType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StartDestination")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TakeOffTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DetailsViewModel");
+                });
+
+            modelBuilder.Entity("guzFlightsUltra.Models.ViewModels.Reservation.ReservationViewModel", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Confirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("DetailsViewModelId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nationality")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SSN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SecondName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TicketType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TicketsCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DetailsViewModelId");
+
+                    b.ToTable("ReservationViewModel");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -393,6 +475,13 @@ namespace guzFlightsUltra.Migrations
                         .WithMany("Reservations")
                         .HasForeignKey("FlightId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("guzFlightsUltra.Models.ViewModels.Reservation.ReservationViewModel", b =>
+                {
+                    b.HasOne("guzFlightsUltra.Models.ViewModels.Flight.DetailsViewModel", null)
+                        .WithMany("Passengers")
+                        .HasForeignKey("DetailsViewModelId");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using guzFlightsUltra.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace guzFlightsUltra.Models
 
         public DateTime ArrivalTime { get; set; }
 
-        public string PlaneType { get; set; }
+        public PlaneType PlaneType { get; set; }
 
         public string PilotName { get; set; }
 

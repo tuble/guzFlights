@@ -1,19 +1,17 @@
 ﻿using guzFlightsUltra.Data.Models;
-using System;
+using guzFlightsUltra.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace guzFlightsUltra.Services.Contracts
 {
-    public interface IUserService
+    public interface IGuzUserService
     {
-
-        List<User> GetAll(); // (показване на 10, 25 или 50 записа на страница
-        List<User> GetByEmail(string email);
-        List<User> GetByUserName(string userName);
-        List<User> GetByFirstName(string firstName);
-        List<User> GetByLastName(string lastName);
+        int Count();
+        List<User> GetAll(int page, int onPage, string orderBy); // (показване на 10, 25 или 50 записа на страница
+        bool Contains(string id);
+        User GetById(string id);
+        void Edit(GuzUserServiceModel user);
+        void DeleteById(string id);
 
     }
 }

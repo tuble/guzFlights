@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using guzFlightsUltra.Data.Enums;
 using Microsoft.AspNetCore.Identity;
 
 namespace guzFlightsUltra.Data.Models
@@ -24,7 +25,7 @@ namespace guzFlightsUltra.Data.Models
 
         [Required]
         [Range(0, 2)]
-        public string PlaneType { get; set; }
+        public PlaneType PlaneType { get; set; }
 
         [Required]
         [MaxLength(30)]
