@@ -80,12 +80,12 @@ namespace guzFlightsUltra.Controllers
         {
             if (!reservationService.ExistsId(id))
             {
-                return Redirect("/Flight/GetAll");
+                return Redirect("/Reservation/All?page=1"); // display error msg?
             }
 
             reservationService.DeleteReservation(id);
 
-            return Redirect("/Flight/GetAll");
+            return Redirect("/Reservation/All?page=1");
         }
 
         [Authorize]

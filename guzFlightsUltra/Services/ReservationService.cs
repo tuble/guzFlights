@@ -67,14 +67,14 @@ namespace guzFlightsUltra.Services
             context.Reservations.Add(reservation);
             context.SaveChanges();
 
-            var message = $@"Dear {reservation.FirstName} {reservation.LastName}, do you wish to confirm your reservation for {reservation.TicketsCount} {reservation.TicketType} Tickets from {flight.EndDestination} to {flight.StartDestination}?
+            var message = $@"Confirm {reservation.TicketsCount} tickets for flight from {flight.StartDestination} to {flight.EndDestination} on {flight.TakeOffTime}.
               <br/>
-               <a href='https://localhost:44322/Reservation/Confirm?id={reservation.Id}'>confirm</a>
-                <br/>
-                <a href='https://localhost:44322/Reservation/Delete?id={reservation.Id}'>delete</a>
+              <a href='https://localhost:44322/Reservation/Confirm?id={reservation.Id}'>Confirm Reservation</a>
+              <br/>
+              <a href='https://localhost:44322/Reservation/Delete?id={reservation.Id}'>Abort Reservation</a>
             ";
 
-            emailSender.SendEmailAsync(reservation.Email, "Confirm Your Reservation", message).GetAwaiter().GetResult();
+            emailSender.SendEmailAsync(reservation.Email, "Confirm Reservation", message).GetAwaiter().GetResult();
         }
 
         public bool ExistsId(string id)

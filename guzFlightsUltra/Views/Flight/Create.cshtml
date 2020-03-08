@@ -5,17 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4 class="text-center">Create Flight</h4>
-<hr />
+<h4>Create Flight</h4>
+
 <div class="row">
-    <div class="col-md-6 mx-auto">
+    <div>
         <form action="/Flight/Create" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
+            <div asp-validation-summary="All"></div>
             <div class="form-group">
                 <div class="form-group p-1">
                     <label for="startDestination">From: </label>
                     <select asp-for="StartDestination">
-                        <option value="" disabled="true" , selected="true">Select starting location</option>
+                        <option value="" disabled="true" selected="true">Select starting location</option>
                         <option value="Guinea">Guinea</option>
                         <option value="Uganda">Uganda</option>
                         <option value="Zimbabwe">Zimbabwe</option>
@@ -32,15 +32,13 @@
                 </div>
                 <div class="form-group">
                     <label for="endDestination">Enter take off time: </label>
-                    <input asp-for="TakeOffTime" class="form-control common-input mt-20" placeholder="Departure Time - MM/dd/yyyy hh::mm" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Take Off Time - MM/dd/yyyy hh::mm'" />
-                    <span asp-validation-for="TakeOffTime" class="text-dark"></span>
+                    <input asp-for="TakeOffTime" type="date" asp-format="{0:dd-MM-yyyy}" placeholder="Take Off Time - dd/MM/yyyy" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Take Off Time - dd/MM/yyyy '" />
                 </div>
                 <div class="form-group">
                     <label for="endDestination">Enter time of arrival: </label>
-                    <input asp-for="ArrivalTime" class="form-control common-input mt-20" placeholder="Arrival Time - MM/dd/yyyy hh::mm" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Arrival Time - MM/dd/yyyy hh::mm'" />
-                    <span asp-validation-for="ArrivalTime" class="text-dark"></span>
+                    <input asp-for="ArrivalTime" type="date" asp-format="{0:dd-MM-yyyy}" placeholder="Arrival Time - MM/dd/yyyy" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Arrival Time - dd/MM/yyyy'" />
                 </div>
-                <div class="form-group p-1">
+                <div class="form-group">
                     <label for="planeType">Plane Type: </label>
                     <select asp-for="PlaneType">
                         <option value="" disabled="true" , selected="true">Select plane type</option>
@@ -52,7 +50,6 @@
                 <div class="form-group">
                     <label for="endDestination">Enter pilot name: </label>
                     <input asp-for="PilotName" class="form-control common-input mt-20" placeholder="Pilot Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Pilot Name'" />
-                    <span asp-validation-for="PilotName" class="text-dark"></span>
                 </div>
 
                 <div class="form-group">

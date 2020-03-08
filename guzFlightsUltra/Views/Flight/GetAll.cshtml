@@ -1,7 +1,7 @@
 ﻿@model guzFlightsUltra.Models.ViewModels.Flight.ListingPageViewModel
 <section>
     <div class="container">
-        <h1 style="text-align: center">All Flights</h1>
+        <h1 style="text-align: center" class="m-2">All Flights</h1>
         <div>
             <table class="table">
                 <thead class="thead-dark">
@@ -27,7 +27,7 @@
                             <td>@Model.Flights[i].FreeSeatsBussiness</td>
                             <td>
                                 <div class="button-holder">
-                                    <a href="/Flight/Details?id=@Model.Flights[i].Id" class="btn btn-dark text-uppercase">Reserve</a>
+                                    <a href="/Flight/Details?id=@Model.Flights[i].Id" class="btn btn-dark text-uppercase">+</a>
                                 </div>
                             </td>
                         </tr>

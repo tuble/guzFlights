@@ -1,19 +1,30 @@
-﻿@model guzFlightsUltra.Models.ViewModels.Flight.DetailsViewModel
+﻿
+@model guzFlightsUltra.Models.ViewModels.Flight.DetailsViewModel
 
 
 <section class="py-5">
     <div class="container">
-        <h1 style="margin: 2%; text-align: center;">Edit Flight</h1>
+        <h1>Edit Flight @Model.Id</h1>
         <form method="post" action="/Flight/Edit">
             <div>
 
-                <div class="form-group">
-                    <label for="from">From</label>
-                    <input type="text" class="form-control" id="from" name="From" value="@Model.StartDestination">
+                <div class="form-group p-1">
+                    <label for="startDestination">From: </label>
+                    <select asp-for="StartDestination">
+                        <option value="" disabled="true" selected="true">@Model.StartDestination</option>
+                        <option value="Guinea">Guinea</option>
+                        <option value="Uganda">Uganda</option>
+                        <option value="Zimbabwe">Zimbabwe</option>
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="to">To</label>
-                    <input type="text" class="form-control" id="to" name="To" value="@Model.EndDestination">
+                <div class="form-group p-1">
+                    <label for="endDestination">To: </label>
+                    <select asp-for="EndDestination">
+                        <option value="" disabled="true" , selected="true">@Model.EndDestination</option>
+                        <option value="Guinea">Guinea</option>
+                        <option value="Uganda">Uganda</option>
+                        <option value="Zimbabwe">Zimbabwe</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="departureTime">Departure Time</label>
@@ -47,7 +58,7 @@
 
                     @if (User.IsInRole("Administrator"))
                     {
-                        <button type="submit" class="btn btn-dark">Edit</button>
+                        <button type="submit" class="btn btn-dark">Confirm Changes</button>
                     }
                 </div>
             </div>

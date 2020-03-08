@@ -39,7 +39,7 @@ namespace guzFlightsUltra.Controllers
 
             if(input.StartDestination == input.EndDestination)
             {
-                return Redirect("/Flight/Create"); // do some error message
+                return Redirect("/Flight/DestinationsError"); // do some error message
             }
 
             // parse string to DateTime Format
@@ -48,7 +48,7 @@ namespace guzFlightsUltra.Controllers
 
             if (!DateTime.TryParse(input.TakeOffTime, out takeOffTime))
             {
-                return Redirect("/Flight/Create"); // do some error message
+                return Redirect("/Flight/TimeError"); // do some error message
             }
 
             var arrivalTime = new DateTime();
@@ -95,7 +95,17 @@ namespace guzFlightsUltra.Controllers
 
             return Redirect("/Home/Index");
         }
+        public IActionResult TimeError()
+        {
+            //return Redirect("/Flight/TimeError");
+            return Redirect("/GetAll?page=1");
+        }
+        public IActionResult DestinationsError()
+        {
+            //return Redirect("/Flight/DestinationsError");
+            return Redirect("/GetAll?page=1");
 
+        }
         public IActionResult GetAll(int page)
         {
             if (page <= 0)
@@ -162,8 +172,8 @@ namespace guzFlightsUltra.Controllers
             var viewModel = new DetailsViewModel()
             {
                 Id = flight.FlightId,
-                ArrivalTime = flight.ArrivalTime.ToString("dd/MM/yyyy hh:mm tt"),
-                TakeOffTime = flight.TakeOffTime.ToString("dd/MM/yyyy hh:mm tt"),
+                ArrivalTime = flight.ArrivalTime.ToString("dd/MM/yyyy"),
+                TakeOffTime = flight.TakeOffTime.ToString("dd/MM/yyyy"),
                 FreeSeatsPassanger = flight.FreeSeatsPassanger,
                 FreeSeatsBussiness = flight.FreeSeatsBussiness,
                 StartDestination = flight.StartDestination,
@@ -196,7 +206,7 @@ namespace guzFlightsUltra.Controllers
         {
             if (!flightService.ExistsId(id))
             {
-                return Redirect("/Flight/GetAll?page=1");
+                return Redirect("/GetAll?page=1");
             }
 
             flightService.DeleteFlightById(id);
@@ -217,8 +227,8 @@ namespace guzFlightsUltra.Controllers
             var viewModel = new DetailsViewModel()
             {
                 Id = flight.FlightId,
-                ArrivalTime = flight.ArrivalTime.ToString("dd/MM/yyyy hh:mm tt"),
-                TakeOffTime = flight.TakeOffTime.ToString("dd/MM/yyyy hh:mm tt"),
+                ArrivalTime = flight.ArrivalTime.ToString("dd/MM/yyyy"),
+                TakeOffTime = flight.TakeOffTime.ToString("dd/MM/yyyy"),
                 FreeSeatsPassanger = flight.FreeSeatsPassanger,
                 FreeSeatsBussiness = flight.FreeSeatsBussiness,
                 StartDestination = flight.StartDestination,

@@ -38,9 +38,11 @@ namespace guzFlightsUltra.Services.EmailSender
                 Port = 587,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential(fromAddress.Address, password),
                 Timeout = 20000
             };
+
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential(fromAddress.Address, password);
 
             using (var mailMessage = new MailMessage(fromAddress, toAddress))
             {

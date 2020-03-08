@@ -193,3 +193,5 @@ C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp
 C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp3.1\Razor\Views\Reservation\All.cshtml.g.cs
 C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp3.1\Razor\Views\Reservation\Make.cshtml.g.cs
 C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp3.1\Razor\Views\User\All.cshtml.g.cs
+C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp3.1\Razor\Views\Flight\TimeError.cshtml.g.cs
+C:\Users\YOUTU\source\repos\guzFlightsUltra\guzFlightsUltra\obj\Debug\netcoreapp3.1\Razor\Views\Flight\DestinationsError.cshtml.g.cs
